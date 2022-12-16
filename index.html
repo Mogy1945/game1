@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TEST</title>
+</head>
+<style>
+    .game-container {
+        display: flex;
+        justify-content: center;
+        position: relative;
+    }
+
+    .square {
+        border: 1px solid black;
+        width: 200px;
+        height: 200px;
+        font-size: 50px;
+        text-align: center;
+    }
+
+    .game-controller {
+        position: absolute;
+        top: 20%;
+        left: 10%;
+        background-color: rgb(105, 133, 136);
+        height: 150px;
+        width: 150px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .game-controller span {
+        border: 1px black solid;
+        width: 40px;
+        height: 40px;
+        background-color: rgb(226, 226, 226)
+    }
+
+    .game-controller .up:active {
+        box-shadow: inset 0px 4px 5px rgba(0, 0, 0, .5)
+    }
+
+    .game-controller .left:active {
+        box-shadow: inset 4px 0px 5px rgba(0, 0, 0, .5)
+    }
+
+    .game-controller .right:active {
+        box-shadow: inset -4px 0px 5px rgba(0, 0, 0, .5)
+    }
+
+    .game-controller .down:active {
+        box-shadow: inset 0px -4px 5px rgba(0, 0, 0, .5)
+    }
+
+    .wide-box {
+        display: flex;
+        margin: 5px;
+    }
+
+    .wide-box .left {
+        margin-right: 50px;
+    }
+
+    .player::after {
+        content: "〇";
+    }
+
+    .enemy::after {
+        content: "✖";
+    }
+
+    .start-display {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 1000;
+        background-color: black;
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+    }
+
+    .start-display p {
+        width: 20vw;
+        height: 100px;
+        font-size: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: white;
+        color: black;
+        border-radius: 15px;
+        transition: cubic-bezier(0.075, 0.82, 0.165, 1);
+    }
+
+    .start-display p:hover {
+        background-color: antiquewhite;
+        cursor: pointer;
+    }
+</style>
+
+<body>
+    <div class="start-display">
+        <p onclick="startControl();">START</p>
+    </div>
+    <div class="game-container">
+        <div class="game-controller">
+            <!-- <span class="up" onclick="moving('up')"></span> -->
+            <div class="wide-box">
+                <span class="left" onclick="moving('left')"></span>
+                <span class="right" onclick="moving('right')"></span>
+            </div>
+            <!-- <span class="down" onclick="moving('down')"></span> -->
+        </div>
+        <table>
+            <tr>
+                <td class="square" data-num="1"><span></span></td>
+                <td class="square" data-num="2"><span></span></td>
+                <td class="square" data-num="3"><span></span></td>
+                <td class="square" data-num="4"><span></span></td>
+                <td class="square" data-num="5"><span></span></td>
+            </tr>
+            <tr>
+                <td class="square" data-num="6"><span></span></td>
+                <td class="square" data-num="7"><span></span></td>
+                <td class="square" data-num="8"><span></span></td>
+                <td class="square" data-num="9"><span></span></td>
+                <td class="square" data-num="10"><span></span></td>
+            </tr>
+            <tr>
+                <td class="square" data-num="11"><span></span></td>
+                <td class="square" data-num="12"><span></span></td>
+                <td class="square" data-num="13"><span></span></td>
+                <td class="square" data-num="14"><span></span></td>
+                <td class="square" data-num="15"><span></span></td>
+            </tr>
+            <tr class="end-game-box">
+                <td class="square" data-num="16"><span></span></td>
+                <td class="square" data-num="17"><span></span></td>
+                <td class="square" data-num="18"><span></span></td>
+                <td class="square" data-num="19"><span></span></td>
+                <td class="square" data-num="20"><span class="player"></span></td>
+            </tr>
+        </table>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.2.slim.min.js"
+        integrity="sha256-E3P3OaTZH+HlEM7f1gdAT3lHAn4nWBZXuYe89DFg2d0=" crossorigin="anonymous"></script>
+    <script>
+
+        //エネミーの処理
+        const enemyControl = () => {
+
+            function _enemyGenerator() {
+                setInterval(function () {
+                    const randomNum = Math.floor(Math.random() * ((5 + 1) - 1)) + 1;
+                    const place_ENEMY = $(`[data-num="${randomNum}"]`).find('span')
+                    const place_ENEMY_ALREADY = place_ENEMY.hasClass('enemy');
+
+                    if (place_ENEMY_ALREADY) {
+                        return false;
+                    }
+
+                    place_ENEMY.addClass('enemy');
+                }, 500)
+            }
+
+            function _enemyMoving() {
+                setInterval(function () {
+                    const randomNum = Math.floor(Math.random() * ((15 + 1) - 1)) + 1;
+                    const place_ENEMY = $(`[data-num="${randomNum}"]`).find('span');
+                    const place_ENEMY_ALREADY = place_ENEMY.hasClass('enemy');
+
+                    if (place_ENEMY_ALREADY) {
+                        place_ENEMY.removeClass('enemy');
+
+                        $(`[data-num="${randomNum + 5}"]`).find('span').addClass('enemy');
+                    }
+
+                }, 500)
+            }
+
+            _enemyGenerator();
+            _enemyMoving();
+        }
+
+        //プレイヤーの処理
+        const moving = (way) => {
+            const place_NOW = $('.player').closest('.square').data('num');
+            const squeare_LENGTH = $('.square').length;
+            let place_NEXT = 0;
+
+            switch (way) {
+                case 'up':
+                    place_NEXT = place_NOW - 5;
+                    break
+                case 'left':
+                    place_NEXT = place_NOW - 1;
+                    break
+                case 'right':
+                    place_NEXT = place_NOW + 1;
+                    break
+                case 'down':
+                    place_NEXT = place_NOW + 5;
+                    break
+            }
+
+            // if (place_NEXT <= 0 || place_NEXT > squeare_LENGTH) {
+            //     return false;
+            // }
+            if (place_NEXT <= 15 || place_NEXT >= 21) {
+                return false;
+            }
+
+            $('.player').removeClass('player');
+            $(`[data-num="${place_NEXT}"]`).find('span').addClass('player');
+        }
+
+        //勝ち負け判定の処理
+        const judgeGameControl = () => {
+            let endSquareNum = 0;
+
+            setInterval(function () {
+                $('.square span').each(function () {
+                    const $this = $(this);
+                    const playerFlag = $this.hasClass('player');
+                    const enemyFlag = $this.hasClass('enemy');
+
+                    //負け
+                    if (playerFlag && enemyFlag) {
+                        $('.start-display').css('display', 'flex');
+                        $('.start-display').css('background-color', 'red');
+                        $('.start-display p').text('You are LOOSER!!!!');
+                        $('.start-display p').css('background-color', 'white')
+                        $('.start-display p').css('color', 'black')
+
+                        $('.start-display p').on('click', function () {
+                            location.reload();
+                        })
+                    } else {
+                        const end_LENGTH = $('.end-game-box .square').has('.enemy').length;
+                        if (end_LENGTH === 2) {
+                            $('.start-display').css('display', 'flex');
+                            $('.start-display').css('background-color', 'blue');
+                            $('.start-display').css('z-index', '100000000000000');
+                            $('.start-display p').text('You are Winner!!!!');
+                            $('.start-display p').css('background-color', 'white')
+                            $('.start-display p').css('color', 'black')
+
+                            $('.start-display p').on('click', function () {
+                                location.reload();
+                            })
+                        }
+                    }
+
+                    //勝ち
+                });
+            }, 500)
+        }
+
+        //ゲーム開始の処理
+        const startControl = () => {
+            $('.start-display').hide();
+            judgeGameControl();
+            enemyControl();
+        }
+
+
+    </script>
+</body>
+
+</html>
