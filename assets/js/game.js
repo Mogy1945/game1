@@ -113,7 +113,7 @@ const moving = (settings) => {
         const squeare_LENGTH = $('.square').length;
         let place_NEXT = 0;
         let way = $(this).data('way');
-    
+
         switch (way) {
             case 'up':
                 place_NEXT = place_NOW - 5;
@@ -160,7 +160,7 @@ const judgeGameControl = (settings) => {
 
                     _stopJudgeTimer();
 
-                    $endDisplay.find('p').on('click', function () {
+                    $endDisplay.on('click', function () {
                         location.reload();
                     })
                 } else {
@@ -172,17 +172,17 @@ const judgeGameControl = (settings) => {
 
                         _stopJudgeTimer();
 
-                        $endDisplay.find('p').on('click', function () {
+                        $endDisplay.on('click', function () {
                             location.reload();
                         })
                     }
                 }
             });
         }, settings.judgeSpeed)
-    }
 
-    function _stopJudgeTimer() {
-        clearInterval(judgeTimer);
+        function _stopJudgeTimer() {
+            clearInterval(judgeTimer);
+        }
     }
 
     _startJudgeTimer(settings);
