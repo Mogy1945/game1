@@ -27,19 +27,19 @@
                 <div class="manual-box">
                     <p>遊び方</p>
                     <ol>
-                        <li>左側のコントローラーで○が動きます</li>
-                        <li>インベーダーが○にあたったら負け</li>
-                        <li>インベーダーが最下部の行に、「Easy:3」「それ以外:4」つ落ちたら勝ち</li>
+                        <li>左側のコントローラーで<span class="player_color">機体</span>が動きます</li>
+                        <li><span class="enemy_color">インベーダー</span>が<span class="player_color">機体</span>にあたったら負け</li>
+                        <li><span class="enemy_color">インベーダー</span>が最下部の行に、「Easy:3」「それ以外:4」つ落ちたら勝ち</li>
                     </ol>
                 </div>
             </div>
             <div class="game-settings">
                 <select name="level" id="level_selected">
                     <option value="">難易度を選択してください。</option>
-                    <option value="easy">Easy</option>
-                    <option value="normal">Normal</option>
-                    <option value="hard">Hard</option>
-                    <option value="legend">legend</option>
+                    <option value="easy" class="easy_color">Easy</option>
+                    <option value="normal" class="normal_color">Normal</option>
+                    <option value="hard" class="hard_color">Hard</option>
+                    <option value="legend" class="legend_color">Legend</option>
                 </select>
             </div>
             <div class="game-starter disabled">

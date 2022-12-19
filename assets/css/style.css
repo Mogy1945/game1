@@ -1,3 +1,24 @@
+.player_color {
+  color: blue;
+  font-weight: bold;
+}
+.enemy_color {
+  color: red;
+  font-weight: bold;
+}
+/* .easy_color{
+  color: rgb(40, 142, 81);
+}
+.normal_color{
+  color: rgb(114, 163, 40);
+}
+.hard_color{
+  color: rgb(231, 13, 42);
+} */
+.legend_color{
+  color: purple;
+  font-weight: bold;
+}
 td {
   margin: 0;
   padding: 0;

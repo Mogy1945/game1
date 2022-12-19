@@ -110,7 +110,6 @@ const enemyControl = (settings) => {
 const moving = (settings) => {
     $('.game-controller span').on('click', function () {
         const place_NOW = $('.player').closest('.square').data('num');
-        const squeare_LENGTH = $('.square').length;
         let place_NEXT = 0;
         let way = $(this).data('way');
 
