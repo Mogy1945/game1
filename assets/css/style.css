@@ -92,6 +92,12 @@ td {
   margin: 0;
 }
 
+.game-starter.disabled {
+  background-color: gray;
+  border-radius: 15px;
+  pointer-events: none;
+}
+
 .game-controller span {
   border: 1px black solid;
   width: 40px;

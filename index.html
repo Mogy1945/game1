@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TEST</title>
+    <title>SHOOTING GAME</title>
     <link rel="stylesheet" href="./assets/css/style.css">
 </head>
 
@@ -28,8 +28,8 @@
                     <p>遊び方</p>
                     <ol>
                         <li>左側のコントローラーで○が動きます</li>
-                        <li>✖が○にあたったら負け</li>
-                        <li>✖が最下部の行に2つ落ちたら勝ち</li>
+                        <li>インベーダーが○にあたったら負け</li>
+                        <li>インベーダーが最下部の行に、「Easy:3」「それ以外:4」つ落ちたら勝ち</li>
                     </ol>
                 </div>
             </div>
@@ -42,14 +42,14 @@
                     <option value="legend">legend</option>
                 </select>
             </div>
-            <div class="game-starter">
-                <p class="game-start-btn" onclick="startControl()">ゲームスタート</p>
+            <div class="game-starter disabled">
+                <p class="game-start-btn" disabled="true">ゲームスタート</p>
             </div>
             <div class="game-controller">
                 <!-- <span class="up" onclick="moving('up')"></span> -->
                 <div class="wide-box">
-                    <span class="left" onclick="moving('left')"></span>
-                    <span class="right" onclick="moving('right')"></span>
+                    <span class="left" data-way="left"></span>
+                    <span class="right" data-way="right"></span>
                 </div>
                 <!-- <span class="down" onclick="moving('down')"></span> -->
             </div>
@@ -118,6 +118,7 @@
 
     <script src="https://code.jquery.com/jquery-3.6.2.slim.min.js"
         integrity="sha256-E3P3OaTZH+HlEM7f1gdAT3lHAn4nWBZXuYe89DFg2d0=" crossorigin="anonymous"></script>
+
     <script src="./assets/js/game.js"></script>
 </body>
 

@@ -1,21 +1,79 @@
-const settings = {
-    //enemy設定
-    enemyAreaStartWidth: 5,
-    enemyAreaMin: 1,
-    enemyAreaMax: 35,
-    enemyDisplaySpeed: 50,
-    enemyMovingSpeed: 50,
-    //player設定
-    playerAreaMin: 36,
-    playerAreaMax: 40,
-    //コンピューター設定
-    judgeSpeed: 500,
+
+
+//難易度選択の処理
+const selectLevel = () => {
+    let selectLevelFlag = false;
+    const settings = {
+        //enemy設定
+        enemyAreaStartWidth: 5,
+        enemyAreaMin: 1,
+        enemyAreaMax: 35,
+        enemyDisplaySpeed: 0,
+        enemyMovingSpeed: 0,
+        endLength: 2,
+        //player設定
+        playerAreaMin: 36,
+        playerAreaMax: 40,
+        //コンピューター設定
+        judgeSpeed: 500,
+    }
+
+    //難易度選択時の処理
+    $('#level_selected').on('change', function () {
+        const level = $(this).find(':selected').val();
+
+        //レベル別初期設定
+        switch (level) {
+            case 'easy':
+                settings.enemyDisplaySpeed = 200;
+                settings.enemyMovingSpeed = 200;
+                selectLevelFlag = true;
+                settings.endLength = 3;
+                break;
+            case 'normal':
+                settings.enemyDisplaySpeed = 100;
+                settings.enemyMovingSpeed = 100;
+                settings.endLength = 4;
+                selectLevelFlag = true;
+                break;
+            case 'hard':
+                settings.enemyDisplaySpeed = 50;
+                settings.enemyMovingSpeed = 50;
+                settings.endLength = 4;
+                selectLevelFlag = true;
+                break;
+            case 'legend':
+                settings.enemyDisplaySpeed = 10;
+                settings.enemyMovingSpeed = 10;
+                settings.endLength = 4;
+                selectLevelFlag = true;
+                break;
+            default:
+                alert('難易度を選択してください。')
+                selectLevelFlag = false;
+                break;
+        }
+
+        selectLevelFlag ? $('.game-starter').removeClass('disabled') : $('.game-starter').addClass('disabled');
+
+    });
+
+    //ゲーム開始の処理
+    $('.game-start-btn').on('click', function () {
+        $('.start-display').hide();
+        judgeGameControl(settings);
+        enemyControl(settings);
+        moving(settings);
+    });
+
 }
 
-//エネミーの処理
-const enemyControl = () => {
 
-    function _enemyGenerator() {
+
+//エネミーの処理
+const enemyControl = (settings) => {
+
+    function _enemyGenerator(settings) {
         setInterval(function () {
             const randomNum = Math.floor(Math.random() * ((settings.enemyAreaStartWidth + 1) - 1)) + 1;
             const place_ENEMY = $(`[data-num="${randomNum}"]`).find('span')
@@ -29,7 +87,7 @@ const enemyControl = () => {
         }, settings.enemyDisplaySpeed)
     }
 
-    function _enemyMoving() {
+    function _enemyMoving(settings) {
         setInterval(function () {
             const randomNum = Math.floor(Math.random() * ((settings.enemyAreaMax + 1) - settings.enemyAreaMin)) + settings.enemyAreaMin;
             const place_ENEMY = $(`[data-num="${randomNum}"]`).find('span');
@@ -44,46 +102,50 @@ const enemyControl = () => {
         }, settings.enemyMovingSpeed)
     }
 
-    _enemyGenerator();
-    _enemyMoving();
+    _enemyGenerator(settings);
+    _enemyMoving(settings);
 }
 
 //プレイヤーの処理
-const moving = (way) => {
-    const place_NOW = $('.player').closest('.square').data('num');
-    const squeare_LENGTH = $('.square').length;
-    let place_NEXT = 0;
+const moving = (settings) => {
+    $('.game-controller span').on('click', function () {
+        const place_NOW = $('.player').closest('.square').data('num');
+        const squeare_LENGTH = $('.square').length;
+        let place_NEXT = 0;
+        let way = $(this).data('way');
+    
+        switch (way) {
+            case 'up':
+                place_NEXT = place_NOW - 5;
+                break
+            case 'left':
+                place_NEXT = place_NOW - 1;
+                break
+            case 'right':
+                place_NEXT = place_NOW + 1;
+                break
+            case 'down':
+                place_NEXT = place_NOW + 5;
+                break
+        }
 
-    switch (way) {
-        case 'up':
-            place_NEXT = place_NOW - 5;
-            break
-        case 'left':
-            place_NEXT = place_NOW - 1;
-            break
-        case 'right':
-            place_NEXT = place_NOW + 1;
-            break
-        case 'down':
-            place_NEXT = place_NOW + 5;
-            break
-    }
+        // if (place_NEXT <= 0 || place_NEXT > squeare_LENGTH) {
+        //     return false;
+        // }
+        if (place_NEXT < settings.playerAreaMin || place_NEXT > settings.playerAreaMax) {
+            return false;
+        }
 
-    // if (place_NEXT <= 0 || place_NEXT > squeare_LENGTH) {
-    //     return false;
-    // }
-    if (place_NEXT < settings.playerAreaMin || place_NEXT > settings.playerAreaMax) {
-        return false;
-    }
+        $('.player').removeClass('player');
+        $(`[data-num="${place_NEXT}"]`).find('span').addClass('player');
+    })
 
-    $('.player').removeClass('player');
-    $(`[data-num="${place_NEXT}"]`).find('span').addClass('player');
 }
 
 //勝ち負け判定の処理
-const judgeGameControl = () => {
+const judgeGameControl = (settings) => {
 
-    const _startJudgeTimer = () => {
+    const _startJudgeTimer = (settings) => {
         const judgeTimer = setInterval(function () {
             $('.square span').each(function () {
                 const $this = $(this);
@@ -104,7 +166,7 @@ const judgeGameControl = () => {
                 } else {
                     //勝ち
                     const end_LENGTH = $('.end-game-box .square').has('.enemy').length;
-                    if (end_LENGTH === 2) {
+                    if (end_LENGTH === settings.endLength) {
                         $endDisplay.addClass('win');
                         $endDisplay.find('p').text('You are WINNERR!!!!');
 
@@ -123,12 +185,12 @@ const judgeGameControl = () => {
         clearInterval(judgeTimer);
     }
 
-    _startJudgeTimer();
+    _startJudgeTimer(settings);
 }
 
-//ゲーム開始の処理
-const startControl = () => {
-    $('.start-display').hide();
-    judgeGameControl();
-    enemyControl();
-}
+
+
+//実行
+$(function () {
+    selectLevel();
+});
