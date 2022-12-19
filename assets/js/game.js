@@ -108,19 +108,30 @@ const enemyControl = (settings) => {
 
 //プレイヤーの処理
 const moving = (settings) => {
+    //キーボードをクリックしたとき
+    $('body').on("keydown", function (e) {
+        movingAction(e, 'keydown');
+    });
+
+    // コントローラーをクリックしたとき
     $('.game-controller span').on('click', function () {
+        movingAction($(this), 'click');
+    })
+    const movingAction = ($this, enterWay) => {
         const place_NOW = $('.player').closest('.square').data('num');
         let place_NEXT = 0;
-        let way = $(this).data('way');
+        let way = enterWay === 'click' ? $this.data('way') : $this.key;
 
         switch (way) {
             case 'up':
                 place_NEXT = place_NOW - 5;
                 break
             case 'left':
+            case 'ArrowLeft':
                 place_NEXT = place_NOW - 1;
                 break
             case 'right':
+            case 'ArrowRight':
                 place_NEXT = place_NOW + 1;
                 break
             case 'down':
@@ -137,7 +148,7 @@ const moving = (settings) => {
 
         $('.player').removeClass('player');
         $(`[data-num="${place_NEXT}"]`).find('span').addClass('player');
-    })
+    }
 
 }
 
