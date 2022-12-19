@@ -1,0 +1,188 @@
+td {
+  margin: 0;
+  padding: 0;
+}
+
+.game-container {
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+
+.game-prev-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  background-color: beige;
+  align-items: center;
+}
+
+.game-prev-box .game-manual .manual-box {
+  background-color: rgb(249, 249, 249);
+  margin: 5px 15px;
+  padding: 5px 0;
+  border-radius: 15px;
+}
+
+.game-prev-box .game-manual .manual-box p {
+  font-weight: bold;
+  text-align: center;
+}
+
+.square-table {
+  height: 90vh;
+  background-image: url(https://images.unsplash.com/photo-1505506874110-6a7a69069a08?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80);
+}
+
+.square {
+  border: 1px solid rgb(210, 210, 210);
+  width: 100px;
+  height: 100px;
+  font-size: 50px;
+  text-align: center;
+}
+
+.game-settings {
+  width: 10vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 15px;
+}
+
+.game-settings select {
+  width: 10vw;
+  height: 2vw;
+}
+
+.game-controller {
+  background-color: rgb(105, 133, 136);
+  height: 150px;
+  width: 150px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.game-starter {
+  background-color: rgb(76, 101, 225);
+  height: 100px;
+  width: 10vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 15px;
+}
+
+.game-starter:hover {
+  opacity: 0.6;
+  cursor: pointer;
+}
+
+.game-starter .game-start-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+
+.game-controller span {
+  border: 1px black solid;
+  width: 40px;
+  height: 40px;
+  background-color: rgb(226, 226, 226);
+}
+
+.game-controller .up:active {
+  box-shadow: inset 0px 4px 5px rgba(0, 0, 0, 0.5);
+}
+
+.game-controller .left:active {
+  box-shadow: inset 4px 0px 5px rgba(0, 0, 0, 0.5);
+}
+
+.game-controller .right:active {
+  box-shadow: inset -4px 0px 5px rgba(0, 0, 0, 0.5);
+}
+
+.game-controller .down:active {
+  box-shadow: inset 0px -4px 5px rgba(0, 0, 0, 0.5);
+}
+
+.wide-box {
+  display: flex;
+  margin: 5px;
+}
+
+.wide-box .left {
+  margin-right: 50px;
+}
+
+.player {
+  background-image: url("../img/player.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+  display: inline-block;
+  width: 50%;
+  height: 50%;
+}
+
+.enemy {
+  background-image: url("../img/enemy.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+  display: inline-block;
+  width: 50%;
+  height: 50%;
+}
+
+.end-display {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1000000;
+  background-color: rgba(0, 0, 0, 0.6);
+  width: 100vw;
+  height: 100vh;
+  display: none;
+  justify-content: center;
+  align-items: center;
+}
+
+.end-display.lose {
+  background-color: rgba(179, 86, 86, 0.6);
+  width: 100vw;
+  display: flex;
+}
+
+.end-display.win {
+  background-color: rgba(36, 85, 198, 0.6);
+  width: 100vw;
+  display: flex;
+}
+
+.end-display p {
+  width: 20vw;
+  height: 100px;
+  font-size: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  color: rgb(59, 59, 59);
+  border-radius: 15px;
+  transition: cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.end-display p:hover {
+  background-color: rgb(209, 179, 179);
+  cursor: pointer;
+}
