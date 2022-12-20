@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="./assets/css/style.css">
 </head>
 
+
 <body>
     <div class="end-display">
         <p>RESET</p>
@@ -29,7 +30,7 @@
                     <ol>
                         <li>左側のコントローラーで<span class="player_color">機体</span>が動きます</li>
                         <li><span class="enemy_color">インベーダー</span>が<span class="player_color">機体</span>にあたったら負け</li>
-                        <li><span class="enemy_color">インベーダー</span>が最下部の行に、「Easy:3」「それ以外:4」つ落ちたら勝ち</li>
+                        <li><span class="enemy_color">インベーダー</span>が最下部の行に、「Easy:10」「それ以外:15」つ落ちたら勝ち</li>
                     </ol>
                 </div>
             </div>
@@ -57,68 +58,41 @@
 
 
         <table class="square-table">
-            <tr>
-                <td class="square" data-num="1"><span></span></td>
-                <td class="square" data-num="2"><span></span></td>
-                <td class="square" data-num="3"><span></span></td>
-                <td class="square" data-num="4"><span></span></td>
-                <td class="square" data-num="5"><span></span></td>
-            </tr>
-            <tr>
-                <td class="square" data-num="6"><span></span></td>
-                <td class="square" data-num="7"><span></span></td>
-                <td class="square" data-num="8"><span></span></td>
-                <td class="square" data-num="9"><span></span></td>
-                <td class="square" data-num="10"><span></span></td>
-            </tr>
-            <tr>
-                <td class="square" data-num="11"><span></span></td>
-                <td class="square" data-num="12"><span></span></td>
-                <td class="square" data-num="13"><span></span></td>
-                <td class="square" data-num="14"><span></span></td>
-                <td class="square" data-num="15"><span></span></td>
-            </tr>
-            <tr>
-                <td class="square" data-num="16"><span></span></td>
-                <td class="square" data-num="17"><span></span></td>
-                <td class="square" data-num="18"><span></span></td>
-                <td class="square" data-num="19"><span></span></td>
-                <td class="square" data-num="20"><span></span></td>
-            </tr>
-            <tr>
-                <td class="square" data-num="21"><span></span></td>
-                <td class="square" data-num="22"><span></span></td>
-                <td class="square" data-num="23"><span></span></td>
-                <td class="square" data-num="24"><span></span></td>
-                <td class="square" data-num="25"><span></span></td>
-            </tr>
-            <tr>
-                <td class="square" data-num="26"><span></span></td>
-                <td class="square" data-num="27"><span></span></td>
-                <td class="square" data-num="28"><span></span></td>
-                <td class="square" data-num="29"><span></span></td>
-                <td class="square" data-num="30"><span></span></td>
-            </tr>
-            <tr>
-                <td class="square" data-num="31"><span></span></td>
-                <td class="square" data-num="32"><span></span></td>
-                <td class="square" data-num="33"><span></span></td>
-                <td class="square" data-num="34"><span></span></td>
-                <td class="square" data-num="35"><span></span></td>
-            </tr>
-            <tr class="end-game-box">
-                <td class="square" data-num="36"><span></span></td>
-                <td class="square" data-num="37"><span></span></td>
-                <td class="square" data-num="38"><span></span></td>
-                <td class="square" data-num="39"><span></span></td>
-                <td class="square" data-num="40"><span class="player"></span></td>
-            </tr>
         </table>
     </div>
 
+
     <script src="https://code.jquery.com/jquery-3.6.2.slim.min.js"
         integrity="sha256-E3P3OaTZH+HlEM7f1gdAT3lHAn4nWBZXuYe89DFg2d0=" crossorigin="anonymous"></script>
+    <script>
+        //フィールドを生成する処理
+        const squareGenerater = () => {
+            // 管理者設定 //
+            const squareSettings = {
+                row: 10, //行
+                column: 20, //列
+            }
+            // 管理者設定 //
+            let destData = "";
+            let td_num = 0;
 
+            for (let i = 1; i <= squareSettings.row; i++) {
+                destData += '<tr>';
+                for (let i = 1; i <= squareSettings.column; i++) {
+                    destData += `<td class="square" data-num="${i + td_num}"><span></span></td>`
+                    if (i === 20) {
+                        td_num += 20;
+                    }
+                }
+                destData += '</tr>';
+            }
+            $('.square-table').append(destData)
+
+            //プレイヤーセット
+            $('tr:last-of-type td:last-of-type').addClass('player');
+        }
+        squareGenerater();
+    </script>
     <script src="./assets/js/game.js"></script>
 </body>
 

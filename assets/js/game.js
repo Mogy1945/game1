@@ -5,15 +5,15 @@ const selectLevel = () => {
     let selectLevelFlag = false;
     const settings = {
         //enemy設定
-        enemyAreaStartWidth: 5,
+        enemyAreaStartWidth: 20,
         enemyAreaMin: 1,
-        enemyAreaMax: 35,
+        enemyAreaMax: 180,
         enemyDisplaySpeed: 0,
         enemyMovingSpeed: 0,
         endLength: 2,
         //player設定
-        playerAreaMin: 36,
-        playerAreaMax: 40,
+        playerAreaMin: 181,
+        playerAreaMax: 200,
         //コンピューター設定
         judgeSpeed: 500,
     }
@@ -28,24 +28,24 @@ const selectLevel = () => {
                 settings.enemyDisplaySpeed = 200;
                 settings.enemyMovingSpeed = 200;
                 selectLevelFlag = true;
-                settings.endLength = 3;
+                settings.endLength = 10;
                 break;
             case 'normal':
                 settings.enemyDisplaySpeed = 100;
                 settings.enemyMovingSpeed = 100;
-                settings.endLength = 4;
+                settings.endLength = 15;
                 selectLevelFlag = true;
                 break;
             case 'hard':
                 settings.enemyDisplaySpeed = 50;
                 settings.enemyMovingSpeed = 50;
-                settings.endLength = 4;
+                settings.endLength = 15;
                 selectLevelFlag = true;
                 break;
             case 'legend':
                 settings.enemyDisplaySpeed = 10;
                 settings.enemyMovingSpeed = 10;
-                settings.endLength = 4;
+                settings.endLength = 15;
                 selectLevelFlag = true;
                 break;
             default:
@@ -96,7 +96,7 @@ const enemyControl = (settings) => {
             if (place_ENEMY_ALREADY) {
                 place_ENEMY.removeClass('enemy');
 
-                $(`[data-num="${randomNum + 5}"]`).find('span').addClass('enemy');
+                $(`[data-num="${randomNum + settings.enemyAreaStartWidth}"]`).find('span').addClass('enemy');
             }
 
         }, settings.enemyMovingSpeed)
