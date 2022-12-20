@@ -28,9 +28,13 @@
                 <div class="manual-box">
                     <p>遊び方</p>
                     <ol>
-                        <li>左側のコントローラーで<span class="player_color">機体</span>が動きます</li>
+                        <li>キーボードの右左ボタンで<span class="player_color">機体</span>が動きます</li>
+                        <li>キーボードの<span class="player_color">「Z」</span>ボタンで<span class="player_color">ミサイル</span>を放ちます
+                        </li>
                         <li><span class="enemy_color">インベーダー</span>が<span class="player_color">機体</span>にあたったら負け</li>
-                        <li><span class="enemy_color">インベーダー</span>が最下部の行に、「Easy:10」「それ以外:15」つ落ちたら勝ち</li>
+                        <li><span class="enemy_color">インベーダー</span>が<span class="player_color">プレイヤーのいる行</span>まで到着しても負け
+                        </li>
+                        <li><span class="enemy_color">インベーダー</span>を<span class="player_color">15体撃ち落としたら</span>勝ち</li>
                     </ol>
                 </div>
             </div>
@@ -77,7 +81,11 @@
             let td_num = 0;
 
             for (let i = 1; i <= squareSettings.row; i++) {
-                destData += '<tr>';
+                if (i === squareSettings.row) {
+                    destData += '<tr class="end-game-box">';
+                } else {
+                    destData += '<tr>';
+                }
                 for (let i = 1; i <= squareSettings.column; i++) {
                     destData += `<td class="square" data-num="${i + td_num}"><span></span></td>`
                     if (i === 20) {
@@ -91,6 +99,8 @@
             //プレイヤーセット
             $('tr:last-of-type td:last-of-type').addClass('player');
         }
+        let destroyNum = 0;
+        let flagAttack = true;
         squareGenerater();
     </script>
     <script src="./assets/js/game.js"></script>

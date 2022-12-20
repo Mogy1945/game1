@@ -171,6 +171,16 @@ td {
   height: 50%;
 }
 
+.attack{
+  background-image: url("../img/misile.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+  display: inline-block;
+  width: 50%;
+  height: 50%;
+}
+
 .end-display {
   position: absolute;
   top: 0;

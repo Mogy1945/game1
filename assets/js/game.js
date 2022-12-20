@@ -1,6 +1,6 @@
 
 
-//難易度選択の処理
+//難易度選択&ゲーム開始の処理
 const selectLevel = () => {
     let selectLevelFlag = false;
     const settings = {
@@ -10,12 +10,17 @@ const selectLevel = () => {
         enemyAreaMax: 180,
         enemyDisplaySpeed: 0,
         enemyMovingSpeed: 0,
-        endLength: 2,
         //player設定
         playerAreaMin: 181,
         playerAreaMax: 200,
+        attackSpeed: 1000, //attackの移動速度
         //コンピューター設定
-        judgeSpeed: 500,
+        judgeSpeed: 500, //勝敗を監視する時間間隔
+        collisionSpeed: 250, //enemyとattackの衝突を監視する時間間隔
+        collisionBombTime: 500, //衝突の演出を監視する時間間隔
+        endLength: 1,
+        attackTargetNum: 15,
+        setAttackSpeed: 1000, //attackの再装填時間
     }
 
     //難易度選択時の処理
@@ -25,27 +30,27 @@ const selectLevel = () => {
         //レベル別初期設定
         switch (level) {
             case 'easy':
-                settings.enemyDisplaySpeed = 200;
-                settings.enemyMovingSpeed = 200;
+                settings.enemyDisplaySpeed = 30;
+                settings.enemyMovingSpeed = 30;
+
                 selectLevelFlag = true;
-                settings.endLength = 10;
                 break;
             case 'normal':
-                settings.enemyDisplaySpeed = 100;
-                settings.enemyMovingSpeed = 100;
-                settings.endLength = 15;
+                settings.enemyDisplaySpeed = 20;
+                settings.enemyMovingSpeed = 20;
+
                 selectLevelFlag = true;
                 break;
             case 'hard':
-                settings.enemyDisplaySpeed = 50;
-                settings.enemyMovingSpeed = 50;
-                settings.endLength = 15;
+                settings.enemyDisplaySpeed = 15;
+                settings.enemyMovingSpeed = 15;
+
                 selectLevelFlag = true;
                 break;
             case 'legend':
                 settings.enemyDisplaySpeed = 10;
                 settings.enemyMovingSpeed = 10;
-                settings.endLength = 15;
+
                 selectLevelFlag = true;
                 break;
             default:
@@ -61,9 +66,13 @@ const selectLevel = () => {
     //ゲーム開始の処理
     $('.game-start-btn').on('click', function () {
         $('.start-display').hide();
+        $('.game-prev-box').hide();
         judgeGameControl(settings);
         enemyControl(settings);
         moving(settings);
+        attackMoving(settings);
+        collisionControl(settings);
+        setAttackControl(settings);
     });
 
 }
@@ -111,12 +120,15 @@ const moving = (settings) => {
     //キーボードをクリックしたとき
     $('body').on("keydown", function (e) {
         movingAction(e, 'keydown');
+        attackAction(e, 'keydown')
     });
 
     // コントローラーをクリックしたとき
     $('.game-controller span').on('click', function () {
         movingAction($(this), 'click');
     })
+
+    //移動の処理
     const movingAction = ($this, enterWay) => {
         const place_NOW = $('.player').closest('.square').data('num');
         let place_NEXT = 0;
@@ -150,7 +162,73 @@ const moving = (settings) => {
         $(`[data-num="${place_NEXT}"]`).find('span').addClass('player');
     }
 
+    //攻撃の処理
+    const attackAction = ($this, enterWay) => {
+        const place_NOW = $('.player').closest('.square').data('num');
+        let place_Attack = 0;
+        let way = enterWay === 'click' ? $this.data('way') : $this.key;
+
+        switch (way) {
+            case 'z':
+                if (flagAttack) {
+                    place_Attack = place_NOW - settings.enemyAreaStartWidth;
+                    $(`[data-num="${place_Attack}"]`).find('span').addClass('attack');
+                    flagAttack = false
+                }
+                break
+            default:
+        }
+    }
 }
+
+//ミサイルの再装填時間を管理
+const setAttackControl = (settings) => {
+    setInterval(function () {
+        if (!flagAttack) {
+            flagAttack = true
+        }
+    }, settings.setAttackSpeed);
+
+}
+
+//ミサイルの移動処理
+const attackMoving = (settings) => {
+    setInterval(function () {
+        $('.attack').each(function () {
+            const $attack = $(this);
+            const $square = $attack.closest('.square')
+            const place_NOW = $square.data('num');
+
+            $attack.removeClass('attack')
+            $(`[data-num="${place_NOW - settings.enemyAreaStartWidth}"]`).find('span').addClass('attack');
+        });
+    }, settings.attackSpeed)
+}
+
+//ミサイル当たり判定の処理
+const collisionControl = (settings) => {
+
+    setInterval(function () {
+        $('.square span').each(function () {
+            const $this = $(this);
+            const attackFlag = $this.hasClass('attack');
+            const enemyFlag = $this.hasClass('enemy');
+
+            //あたり
+            if (attackFlag && enemyFlag) {
+                destroyNum++
+                $this.removeClass('attack')
+                $this.removeClass('enemy')
+                $this.closest('.square').css('background-color', 'red')
+                setTimeout(function () {
+                    $this.closest('.square').css('background-color', 'inherit')
+                }, settings.collisionBombTime);
+            }
+        });
+    }, settings.collisionSpeed)
+
+}
+
 
 //勝ち負け判定の処理
 const judgeGameControl = (settings) => {
@@ -163,7 +241,7 @@ const judgeGameControl = (settings) => {
                 const enemyFlag = $this.hasClass('enemy');
                 const $endDisplay = $('.end-display');
 
-                //負け
+                //playerとenemyが接触したら負け
                 if (playerFlag && enemyFlag) {
                     $endDisplay.addClass('lose');
                     $endDisplay.find('p').text('You are LOOSER!!!!');
@@ -174,9 +252,23 @@ const judgeGameControl = (settings) => {
                         location.reload();
                     })
                 } else {
-                    //勝ち
                     const end_LENGTH = $('.end-game-box .square').has('.enemy').length;
+                    //enemyが最下部に到着したら負け
                     if (end_LENGTH === settings.endLength) {
+                        $endDisplay.addClass('lose');
+                        $endDisplay.find('p').text('You are LOOSER!!!!');
+
+                        _stopJudgeTimer();
+
+                        $endDisplay.on('click', function () {
+                            location.reload();
+                        })
+
+
+                    }
+
+                    //撃破数が目標を上回ったら勝ち
+                    if (settings.attackTargetNum <= destroyNum) {
                         $endDisplay.addClass('win');
                         $endDisplay.find('p').text('You are WINNERR!!!!');
 
