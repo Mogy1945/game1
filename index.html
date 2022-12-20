@@ -1,109 +1,134 @@
 <!DOCTYPE html>
 <html lang="ja">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>SHOOTING GAME</title>
-    <link rel="stylesheet" href="./assets/css/style.css">
-</head>
+    <link rel="stylesheet" href="./assets/css/style.css" />
+  </head>
 
-
-<body>
+  <body>
     <div class="end-display">
-        <p>RESET</p>
+      <p>RESET</p>
+    </div>
+    <div class="point-display">
+      <span>残り...</span>
+      <p>15</p>
     </div>
     <div class="game-container">
-        <div class="game-prev-box">
-            <div class="game-manual">
-                <div class="manual-box">
-                    <p>始め方</p>
-                    <ol>
-                        <li>「遊び方」を読んでください。</li>
-                        <li>難易度を選択してください。</li>
-                        <li>「ゲームスタート」をクリックするとはじまります。</li>
-                    </ol>
-                </div>
-                <div class="manual-box">
-                    <p>遊び方</p>
-                    <ol>
-                        <li>キーボードの右左ボタンで<span class="player_color">機体</span>が動きます</li>
-                        <li>キーボードの<span class="player_color">「Z」</span>ボタンで<span class="player_color">ミサイル</span>を放ちます
-                        </li>
-                        <li><span class="enemy_color">インベーダー</span>が<span class="player_color">機体</span>にあたったら負け</li>
-                        <li><span class="enemy_color">インベーダー</span>が<span class="player_color">プレイヤーのいる行</span>まで到着しても負け
-                        </li>
-                        <li><span class="enemy_color">インベーダー</span>を<span class="player_color">15体撃ち落としたら</span>勝ち</li>
-                    </ol>
-                </div>
-            </div>
-            <div class="game-settings">
-                <select name="level" id="level_selected">
-                    <option value="">難易度を選択してください。</option>
-                    <option value="easy" class="easy_color">Easy</option>
-                    <option value="normal" class="normal_color">Normal</option>
-                    <option value="hard" class="hard_color">Hard</option>
-                    <option value="legend" class="legend_color">Legend</option>
-                </select>
-            </div>
-            <div class="game-starter disabled">
-                <p class="game-start-btn" disabled="true">ゲームスタート</p>
-            </div>
-            <div class="game-controller">
-                <!-- <span class="up" onclick="moving('up')"></span> -->
-                <div class="wide-box">
-                    <span class="left" data-way="left"></span>
-                    <span class="right" data-way="right"></span>
-                </div>
-                <!-- <span class="down" onclick="moving('down')"></span> -->
-            </div>
+      <div class="game-prev-box">
+        <div class="game-manual">
+          <div class="manual-box">
+            <p>始め方</p>
+            <ol>
+              <li>「遊び方」を読んでください。</li>
+              <li>難易度を選択してください。</li>
+              <li>「ゲームスタート」をクリックするとはじまります。</li>
+            </ol>
+          </div>
+          <div class="manual-box">
+            <p>遊び方</p>
+            <ol>
+              <li>
+                キーボードの右左ボタンで<span class="player_color">機体</span
+                >が動きます
+              </li>
+              <li>
+                キーボードの<span class="player_color">「Z」</span>ボタンで<span
+                  class="player_color"
+                  >ミサイル</span
+                >を放ちます
+              </li>
+              <li>
+                <span class="enemy_color">インベーダー</span>が<span
+                  class="player_color"
+                  >機体</span
+                >にあたったら負け
+              </li>
+              <li>
+                <span class="enemy_color">インベーダー</span>が<span
+                  class="player_color"
+                  >プレイヤーのいる行</span
+                >まで到着しても負け
+              </li>
+              <li>
+                <span class="enemy_color">インベーダー</span>を<span
+                  class="player_color"
+                  >15体撃ち落としたら</span
+                >勝ち
+              </li>
+            </ol>
+          </div>
         </div>
+        <div class="game-settings">
+          <select name="level" id="level_selected">
+            <option value="">難易度を選択してください。</option>
+            <option value="easy" class="easy_color">Easy</option>
+            <option value="normal" class="normal_color">Normal</option>
+            <option value="hard" class="hard_color">Hard</option>
+            <option value="legend" class="legend_color">Legend</option>
+          </select>
+        </div>
+        <div class="game-starter disabled">
+          <p class="game-start-btn" disabled="true">ゲームスタート</p>
+        </div>
+        <div class="game-controller">
+          <!-- <span class="up" onclick="moving('up')"></span> -->
+          <div class="wide-box">
+            <span class="left" data-way="left"></span>
+            <span class="right" data-way="right"></span>
+          </div>
+          <!-- <span class="down" onclick="moving('down')"></span> -->
+        </div>
+      </div>
 
-
-        <table class="square-table">
-        </table>
+      <table class="square-table"></table>
     </div>
 
-
-    <script src="https://code.jquery.com/jquery-3.6.2.slim.min.js"
-        integrity="sha256-E3P3OaTZH+HlEM7f1gdAT3lHAn4nWBZXuYe89DFg2d0=" crossorigin="anonymous"></script>
+    <script
+      src="https://code.jquery.com/jquery-3.6.2.slim.min.js"
+      integrity="sha256-E3P3OaTZH+HlEM7f1gdAT3lHAn4nWBZXuYe89DFg2d0="
+      crossorigin="anonymous"
+    ></script>
     <script>
-        //フィールドを生成する処理
-        const squareGenerater = () => {
-            // 管理者設定 //
-            const squareSettings = {
-                row: 10, //行
-                column: 20, //列
-            }
-            // 管理者設定 //
-            let destData = "";
-            let td_num = 0;
+      //フィールドを生成する処理
+      const squareGenerater = () => {
+        // 管理者設定 //
+        const squareSettings = {
+          row: 10, //行
+          column: 20, //列
+        };
+        // 管理者設定 //
+        let destData = "";
+        let td_num = 0;
 
-            for (let i = 1; i <= squareSettings.row; i++) {
-                if (i === squareSettings.row) {
-                    destData += '<tr class="end-game-box">';
-                } else {
-                    destData += '<tr>';
-                }
-                for (let i = 1; i <= squareSettings.column; i++) {
-                    destData += `<td class="square" data-num="${i + td_num}"><span></span></td>`
-                    if (i === 20) {
-                        td_num += 20;
-                    }
-                }
-                destData += '</tr>';
+        for (let i = 1; i <= squareSettings.row; i++) {
+          if (i === squareSettings.row) {
+            destData += '<tr class="end-game-box">';
+          } else {
+            destData += "<tr>";
+          }
+          for (let i = 1; i <= squareSettings.column; i++) {
+            destData += `<td class="square" data-num="${
+              i + td_num
+            }"><span></span></td>`;
+            if (i === 20) {
+              td_num += 20;
             }
-            $('.square-table').append(destData)
-
-            //プレイヤーセット
-            $('tr:last-of-type td:last-of-type').addClass('player');
+          }
+          destData += "</tr>";
         }
-        let destroyNum = 0;
-        let flagAttack = true;
-        squareGenerater();
+        $(".square-table").append(destData);
+
+        //プレイヤーセット
+        $("tr:last-of-type td:last-of-type").addClass("player");
+      };
+      let destroyNum = 0;
+      let leftNum = Number($(".point-display").find("p").text());
+      let flagAttack = true;
+      squareGenerater();
     </script>
     <script src="./assets/js/game.js"></script>
-</body>
-
+  </body>
 </html>

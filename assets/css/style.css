@@ -1,3 +1,12 @@
+.point-display {
+  position: absolute;
+  top: 0;
+  left: 5%;
+  font-size: 40px;
+  z-index: 100000;
+  display: none;
+}
+
 .player_color {
   color: blue;
   font-weight: bold;
@@ -15,7 +24,7 @@
 .hard_color{
   color: rgb(231, 13, 42);
 } */
-.legend_color{
+.legend_color {
   color: purple;
   font-weight: bold;
 }
@@ -171,7 +180,7 @@ td {
   height: 50%;
 }
 
-.attack{
+.attack {
   background-image: url("../img/misile.png");
   background-repeat: no-repeat;
   background-size: cover;
