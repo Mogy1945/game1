@@ -5,35 +5,14 @@ import styles from '../styles/Home.module.css'
 
 const inter = Inter({ subsets: ['latin'] })
 
+// 管理者設定 //
+const squareSettings = {
+  row: 10, //行
+  column: 20, //列
+};
+// 管理者設定 //
+
 export default function Home() {
-  let destData = "";
-
-  const squareGenerater = () => {
-    // 管理者設定 //
-    const squareSettings = {
-      row: 10, //行
-      column: 20, //列
-    };
-    // 管理者設定 //
-    let td_num = 0;
-
-    for (let i = 1; i <= squareSettings.row; i++) {
-      if (i === squareSettings.row) {
-        destData += '<tr class="end-game-box">';
-      } else {
-        destData += "<tr>";
-      }
-      for (let i = 1; i <= squareSettings.column; i++) {
-        destData += `<td class="square" data-num="${i + td_num
-          }"><span></span></td>`;
-        if (i === 20) {
-          td_num += 20;
-        }
-      }
-      destData += "</tr>";
-    }
-  }
-  squareGenerater();
 
   return (
     <>
@@ -102,23 +81,26 @@ export default function Home() {
           </div>
         </div>
 
-        <table>
+        <table className={styles.squareTable}>
           {
             (function () {
               const tbody = [];
               let td_num = 0;
-              for (let i = 1; i <= 10; i++) {
+              for (let i = 1; i <= squareSettings.row; i++) {
                 const tr = [];
                 const td = [];
-                for (let i = 1; i <= 20; i++) {
-                  td.push(<td key={i + td_num} className={styles.square} data-num={i + td_num}></td>);
-                  if (i === 20) {
-                    td_num += 20;
+                for (let i = 1; i <= squareSettings.column; i++) {
+                  if ((i + td_num) === (squareSettings.row * squareSettings.column)) {
+                    td.push(<td key={i + td_num} className={`${styles.square} ${styles.player}`} data-num={i + td_num}></td>);
+                  } else {
+                    td.push(<td key={i + td_num} className={styles.square} data-num={i + td_num}></td>);
+                  }
+                  if (i === squareSettings.column) {
+                    td_num += squareSettings.column;
                   }
                 }
-                if (i === 10) {
+                if (i === squareSettings.row) {
                   tr.push(<tr key={i} className={styles.endGameBox}>{td}</tr>);
-                  console.log(tr)
                 } else {
                   tr.push(<tr key={i}>{td}</tr>);
                 }
