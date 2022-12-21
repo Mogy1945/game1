@@ -7,25 +7,24 @@ const squareGenerater = () => {
     };
     // 管理者設定 //
     let destData = "";
-    let td_num = 0;
+    let tdNum = 0;
 
+    //trとtdでゲーム画面を生成
     for (let i = 1; i <= squareSettings.row; i++) {
-        if (i === squareSettings.row) {
-            destData += '<tr class="end-game-box">';
-        } else {
-            destData += "<tr>";
-        }
-        for (let i = 1; i <= squareSettings.column; i++) {
-            destData += `<td class="square" data-num="${i + td_num
-                }"><span></span></td>`;
-            if (i === 20) {
-                td_num += 20;
+        const trClass = i === squareSettings.row ? 'class="end-game-box"' : "";
+        destData += `<tr ${trClass}>`;
+
+        for (let j = 1; j <= squareSettings.column; j++) {
+            destData += `<td class="square" data-num="${j + tdNum}"><span></span></td>`;
+            if (j === 20) {
+                tdNum += 20;
             }
         }
+
         destData += "</tr>";
     }
-    $(".square-table").append(destData);
 
+    $(".square-table").append(destData);
     //プレイヤーセット
     $("tr:last-of-type td:last-of-type").addClass("player");
 };
@@ -40,8 +39,8 @@ const rankingControl = () => {
     $('.game-ranking ul li').remove();
 
     //ソートした結果をコンソールに出力する
-    const topFive = $arr.splice(0,5);
-    $.each(topFive,function(){
+    const topFive = $arr.splice(0, 5);
+    $.each(topFive, function () {
         $('.game-ranking ul').append($(this));
     })
 }
