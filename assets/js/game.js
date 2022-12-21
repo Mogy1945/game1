@@ -17,12 +17,12 @@ const selectLevel = (fn) => {
     attackSpeed: 1000, //attackの移動速度
     //コンピューター設定
     judgeSpeed: 500, //勝敗を監視する時間間隔
-    collisionSpeed: 250, //enemyとattackの衝突を監視する時間間隔
+    collisionSpeed: 50, //enemyとattackの衝突を監視する時間間隔
     collisionBombTime: 500, //衝突の演出を監視する時間間隔
     endLength: 1,
     attackTargetNum: 15,
     setAttackSpeed: 1000, //attackの再装填時間
-    survivalMode: false,
+    survivalMode: false, //サバイバルモードのON/OFF
   };
 
   //難易度選択時の処理
