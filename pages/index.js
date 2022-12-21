@@ -6,6 +6,35 @@ import styles from '../styles/Home.module.css'
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
+  let destData = "";
+
+  const squareGenerater = () => {
+    // 管理者設定 //
+    const squareSettings = {
+      row: 10, //行
+      column: 20, //列
+    };
+    // 管理者設定 //
+    let td_num = 0;
+
+    for (let i = 1; i <= squareSettings.row; i++) {
+      if (i === squareSettings.row) {
+        destData += '<tr class="end-game-box">';
+      } else {
+        destData += "<tr>";
+      }
+      for (let i = 1; i <= squareSettings.column; i++) {
+        destData += `<td class="square" data-num="${i + td_num
+          }"><span></span></td>`;
+        if (i === 20) {
+          td_num += 20;
+        }
+      }
+      destData += "</tr>";
+    }
+  }
+  squareGenerater();
+
   return (
     <>
       <Head>
@@ -14,110 +43,95 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={styles.main}>
-        <div className={styles.description}>
-          <p>
-            Get started by editing&nbsp;
-            <code className={styles.code}>pages/index.js</code>
-          </p>
-          <div>
-            <a
-              href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              By{' '}
-              <Image
-                src="/vercel.svg"
-                alt="Vercel Logo"
-                className={styles.vercelLogo}
-                width={100}
-                height={24}
-                priority
-              />
-            </a>
+      <div className={styles.endDisplay}>
+        <p>RESET</p>
+      </div>
+      <div className={styles.pointDisplay}>
+        <span>残り...</span>
+        <p>15</p>
+      </div>
+      <div className={styles.gameContainer}>
+        <div className={styles.gamePrevBox}>
+          <div className={styles.gameManual}>
+            <div className={styles.manualBox}>
+              <p>始め方</p>
+              <ol>
+                <li>「遊び方」を読んでください。</li>
+                <li>難易度を選択してください。</li>
+                <li>「ゲームスタート」をクリックするとはじまります。</li>
+              </ol>
+            </div>
+            <div className={styles.manualBox}>
+              <p>遊び方</p>
+              <ol>
+                <li>
+                  キーボードの右左ボタンで<span className={styles.playerColor}>機体</span>が動きます
+                </li>
+                <li>
+                  キーボードの<span className={styles.playerColor}>「Z」</span>ボタンで<span className={styles.playerColor}>ミサイル</span>を放ちます
+                </li>
+                <li>
+                  <span className={styles.enemyColor}>インベーダー</span>が<span className={styles.playerColor}>機体</span>にあたったら負け
+                </li>
+                <li>
+                  <span className={styles.enemyColor}>インベーダー</span>が<span className={styles.playerColor}>プレイヤーのいる行</span>まで到着しても負け
+                </li>
+                <li>
+                  <span className={styles.enemyColor}>インベーダー</span>を<span className={styles.playerColor}>15体撃ち落としたら</span>勝ち
+                </li>
+              </ol>
+            </div>
+          </div>
+          <div className={styles.gameSettings}>
+            <select name={styles.level} id={styles.levelSelected}>
+              <option value="">難易度を選択してください。</option>
+              <option value="easy" className={styles.easyColor}>Easy</option>
+              <option value="normal" className={styles.normalColor}>Normal</option>
+              <option value="hard" className={styles.hardColor}>Hard</option>
+              <option value="legend" className={styles.legendColor}>Legend</option>
+            </select>
+          </div>
+          <div className={`${styles.gameStarter} ${styles.disabled}`}>
+            <p className={styles.gameStartBtn} disabled="true">ゲームスタート</p>
+          </div>
+          <div className={styles.gameController}>
+            <div className={styles.wideBox}>
+              <span className={styles.left} data-way="left"></span>
+              <span className={styles.right} data-way="right"></span>
+            </div>
           </div>
         </div>
 
-        <div className={styles.center}>
-          <Image
-            className={styles.logo}
-            src="/next.svg"
-            alt="Next.js Logo"
-            width={180}
-            height={37}
-            priority
-          />
-          <div className={styles.thirteen}>
-            <Image
-              src="/thirteen.svg"
-              alt="13"
-              width={40}
-              height={31}
-              priority
-            />
-          </div>
-        </div>
+        <table>
+          {
+            (function () {
+              const tbody = [];
+              let td_num = 0;
+              for (let i = 1; i <= 10; i++) {
+                const tr = [];
+                const td = [];
+                for (let i = 1; i <= 20; i++) {
+                  td.push(<td key={i + td_num} className={styles.square} data-num={i + td_num}></td>);
+                  if (i === 20) {
+                    td_num += 20;
+                  }
+                }
+                if (i === 10) {
+                  tr.push(<tr key={i} className={styles.endGameBox}>{td}</tr>);
+                  console.log(tr)
+                } else {
+                  tr.push(<tr key={i}>{td}</tr>);
+                }
+                tbody.push(tr)
 
-        <div className={styles.grid}>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              Docs <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Find in-depth information about Next.js features and&nbsp;API.
-            </p>
-          </a>
+              }
+              return <tbody>{tbody}</tbody>;
 
-          <a
-            href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              Learn <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Learn about Next.js in an interactive course with&nbsp;quizzes!
-            </p>
-          </a>
 
-          <a
-            href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              Templates <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Discover and deploy boilerplate example Next.js&nbsp;projects.
-            </p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              Deploy <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Instantly deploy your Next.js site to a shareable URL
-              with&nbsp;Vercel.
-            </p>
-          </a>
-        </div>
-      </main>
+            }())
+          }
+        </table>
+      </div>
     </>
   )
 }
