@@ -1,0 +1,303 @@
+li {
+  list-style: none;
+}
+
+.point-display {
+  position: absolute;
+  top: 0;
+  left: 5%;
+  font-size: 40px;
+  z-index: 100000;
+  display: none;
+}
+
+.player_color {
+  color: blue;
+  font-weight: bold;
+}
+.enemy_color {
+  color: red;
+  font-weight: bold;
+}
+/* .easy_color{
+  color: rgb(40, 142, 81);
+}
+.normal_color{
+  color: rgb(114, 163, 40);
+}
+.hard_color{
+  color: rgb(231, 13, 42);
+} */
+.legend_color {
+  color: purple;
+  font-weight: bold;
+}
+.survival_color{
+  color: white;
+  font-weight: bold;
+  background-color: rgb(23, 144, 49);
+  text-align: center;
+}
+td {
+  margin: 0;
+  padding: 0;
+}
+
+.game-container {
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+
+.game-prev-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  background-color: beige;
+  align-items: center;
+}
+
+.game-prev-box .game-manual .manual-box {
+  background-color: rgb(249, 249, 249);
+  margin: 5px 15px;
+  padding: 5px 0;
+  border-radius: 15px;
+}
+
+.game-prev-box .game-manual .manual-box p {
+  font-weight: bold;
+  text-align: center;
+}
+
+.square-table {
+  height: 90vh;
+  background-image: url(https://images.unsplash.com/photo-1505506874110-6a7a69069a08?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80);
+  background-size: 0 -1031px;
+  animation: bg 10s infinite linear;
+}
+@keyframes bg {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 0 1031px;
+  }
+}
+/* 升目の大きさ */
+.square {
+  /* border: 1px solid rgb(210, 210, 210); */
+  width: 50px;
+  height: 50px;
+  text-align: center;
+}
+
+.user-settings {
+  width: 20vw;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  border-radius: 15px;
+}
+
+.game-settings {
+  width: 10vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 15px;
+}
+
+.game-settings select {
+  width: 10vw;
+  height: 2vw;
+}
+
+.game-ranking {
+  height: 150px;
+  width: 95%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  background-color: rgb(249, 249, 249);
+  margin: 5px 15px;
+  padding: 5px 0;
+  border-radius: 15px;
+}
+
+.game-ranking li:nth-of-type(1){
+  color: rgb(197, 176, 19);
+}
+
+.game-ranking li:nth-of-type(2){
+  color: rgb(145, 142, 122);
+}
+
+.game-ranking li:nth-of-type(3){
+  color: rgb(206, 127, 42);
+}
+
+.game-ranking li:nth-of-type(1)::before{
+  content: "1位 ";
+}
+.game-ranking li:nth-of-type(2)::before{
+  content: "2位 ";
+}
+.game-ranking li:nth-of-type(3)::before{
+  content: "3位 ";
+}
+.game-ranking li:nth-of-type(4)::before{
+  content: "4位 ";
+}
+.game-ranking li:nth-of-type(5)::before{
+  content: "5位 ";
+}
+
+.game-starter {
+  background-color: rgb(76, 101, 225);
+  height: 100px;
+  width: 10vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 15px;
+}
+
+.game-starter:hover {
+  opacity: 0.6;
+  cursor: pointer;
+}
+
+.game-starter .game-start-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+
+.game-starter.disabled {
+  background-color: gray;
+  border-radius: 15px;
+  pointer-events: none;
+}
+
+.game-controller span {
+  border: 1px black solid;
+  width: 40px;
+  height: 40px;
+  background-color: rgb(226, 226, 226);
+}
+
+.game-controller .up:active {
+  box-shadow: inset 0px 4px 5px rgba(0, 0, 0, 0.5);
+}
+
+.game-controller .left:active {
+  box-shadow: inset 4px 0px 5px rgba(0, 0, 0, 0.5);
+}
+
+.game-controller .right:active {
+  box-shadow: inset -4px 0px 5px rgba(0, 0, 0, 0.5);
+}
+
+.game-controller .down:active {
+  box-shadow: inset 0px -4px 5px rgba(0, 0, 0, 0.5);
+}
+
+.wide-box {
+  display: flex;
+  margin: 5px;
+}
+
+.wide-box .left {
+  margin-right: 50px;
+}
+
+.player {
+  background-image: url("../img/player.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+  display: inline-block;
+  width: 99%;
+  height: 99%;
+  /* animation: fadeIn 2s ease 0.5s 1 normal none; */
+}
+
+.enemy {
+  background-image: url("../img/enemy.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+  display: inline-block;
+  width: 50%;
+  height: 50%;
+  /* animation: fadeIn 2s ease 0.5s 1 normal none; */
+}
+/* @keyframes fadeIn {
+  from {
+    opacity: 0.5;
+  }
+  to {
+    opacity: 1;
+  }
+} */
+.attack {
+  background-image: url("../img/misile.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+  display: inline-block;
+  width: 50%;
+  height: 50%;
+}
+
+.end-display {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1000000;
+  background-color: rgba(0, 0, 0, 0.6);
+  width: 100vw;
+  height: 100vh;
+  display: none;
+  justify-content: center;
+  align-items: center;
+}
+
+.end-display.lose {
+  background-color: rgba(179, 86, 86, 0.6);
+  width: 100vw;
+  display: flex;
+}
+
+.end-display.win {
+  background-color: rgba(36, 85, 198, 0.6);
+  width: 100vw;
+  display: flex;
+}
+
+.end-display p {
+  width: 20vw;
+  height: 100px;
+  font-size: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  color: rgb(59, 59, 59);
+  border-radius: 15px;
+  transition: cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.end-display p:hover {
+  background-color: rgb(209, 179, 179);
+  cursor: pointer;
+}

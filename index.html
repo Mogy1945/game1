@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SHOOTING GAME</title>
+  <link rel="stylesheet" href="./assets/css/style.css" />
+  <script src="https://code.jquery.com/jquery-3.6.2.slim.min.js"
+    integrity="sha256-E3P3OaTZH+HlEM7f1gdAT3lHAn4nWBZXuYe89DFg2d0=" crossorigin="anonymous"></script>
+  <!-- firebase -->
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js'
+
+    // If you enabled Analytics in your project, add the Firebase SDK for Google Analytics
+    import { getAnalytics } from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-analytics.js'
+
+    // Add Firebase products that you want to use
+    import { getAuth } from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js'
+    import { getFirestore, collection, getDocs, addDoc } from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js'
+    const firebaseConfig = {
+      apiKey: process.env.API_KEY_FIREBASE,
+      authDomain: "shooting-f8264.firebaseapp.com",
+      projectId: "shooting-f8264",
+      storageBucket: "shooting-f8264.appspot.com",
+      messagingSenderId: "345015248904",
+      appId: "1:345015248904:web:54db21922f6b4fad2f09bd",
+      measurementId: "G-L44QGJ1N54"
+    };
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore();
+
+
+
+    getDocs(collection(db, "points"))
+      .then(snapshot => {
+        let users = []
+        let num = 0;
+        snapshot.docs.forEach(doc => {
+          users.push({ ...doc.data(), id: doc.id })
+          const LENGTH = $('.game-ranking ul li').length;
+          $('.game-ranking ul').append(`<li>名前：${users[num].name}  <strong>得点：<span class="game-points">${users[num].point}</span></strong></li>`)
+          num++
+        })
+        rankingControl();
+      })
+      .catch(err => {
+        console.log(err.message)
+      })
+
+    const addDocument = async (data) => {
+      const colRef = collection(db, "points");
+
+      await addDoc(colRef, data);
+    }
+
+    //実行
+    $(function () {
+      squareGenerater();
+      selectLevel(addDocument);
+
+    });
+
+  </script>
+</head>
+
+<body>
+  <div class="end-display">
+    <p>RESET</p>
+  </div>
+  <div class="point-display">
+    <span>残り...</span>
+    <p>15</p>
+  </div>
+  <div class="game-container">
+    <div class="game-prev-box">
+      <div class="game-manual">
+        <div class="manual-box">
+          <p>始め方</p>
+          <ol>
+            <li>「遊び方」を読んでください。</li>
+            <li>難易度を選択してください。</li>
+            <li>「ゲームスタート」をクリックするとはじまります。</li>
+          </ol>
+        </div>
+        <div class="manual-box">
+          <p>遊び方</p>
+          <ol>
+            <li>
+              キーボードの右左ボタンで<span class="player_color">機体</span>が動きます
+            </li>
+            <li>
+              キーボードの<span class="player_color">「Z」</span>ボタンで<span class="player_color">ミサイル</span>を放ちます
+            </li>
+            <li>
+              <span class="enemy_color">インベーダー</span>が<span class="player_color">機体</span>にあたったら負け
+            </li>
+            <li>
+              <span class="enemy_color">インベーダー</span>が<span class="player_color">プレイヤーのいる行</span>まで到着しても負け
+            </li>
+            <li>
+              <span class="enemy_color">インベーダー</span>を<span class="player_color">15体撃ち落としたら</span>勝ち
+            </li>
+          </ol>
+        </div>
+      </div>
+      <div class="game-settings">
+        <select name="level" id="level_selected">
+          <option value="">難易度を選択してください。</option>
+          <option value="easy" class="easy_color">Easy</option>
+          <option value="normal" class="normal_color">Normal</option>
+          <option value="hard" class="hard_color">Hard</option>
+          <option value="legend" class="legend_color">Legend</option>
+          <option value="survival" class="survival_color">SURVIVAL</option>
+        </select>
+      </div>
+      <div class="user-settings">
+        <label for="user-name">お名前</label>
+        <input type="text" id="user-name">
+      </div>
+      <div class="game-starter disabled">
+        <p class="game-start-btn" disabled="true">ゲームスタート</p>
+      </div>
+      <div class="game-ranking">
+        <ul></ul>
+      </div>
+    </div>
+
+    <table class="square-table"></table>
+  </div>
+
+  <script>
+    //定義
+    let destroyNum = 0;
+    let leftNum = Number($(".point-display").find("p").text());
+    let flagAttack = true;
+  </script>
+  <script src="./assets/js/load.js"></script>
+  <script src="./assets/js/game.js"></script>
+
+
+</body>
+
+</html>
