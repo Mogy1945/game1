@@ -28,5 +28,3 @@ yarn-error.log*
 # local env files
 .env*.local
 .env*
-/apikey.js
-/.gitignore
