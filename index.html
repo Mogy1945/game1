@@ -7,12 +7,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SHOOTING GAME</title>
   <link rel="stylesheet" href="./assets/css/style.css" />
+  <script type="text/javascript" src="apikey.js"></script>
   <script src="https://code.jquery.com/jquery-3.6.2.slim.min.js"
     integrity="sha256-E3P3OaTZH+HlEM7f1gdAT3lHAn4nWBZXuYe89DFg2d0=" crossorigin="anonymous"></script>
   <!-- firebase -->
   <script type="module">
-    require('dotenv').config()
-    ('dotenv').config()
+    const API_KEY = config.apikey;
+
     import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js'
 
     // If you enabled Analytics in your project, add the Firebase SDK for Google Analytics
@@ -22,7 +23,7 @@
     import { getAuth } from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js'
     import { getFirestore, collection, getDocs, addDoc } from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js'
     const firebaseConfig = {
-      apiKey: process.env.API_KEY_FIREBASE,
+      apiKey: API_KEY,
       authDomain: "shooting-f8264.firebaseapp.com",
       projectId: "shooting-f8264",
       storageBucket: "shooting-f8264.appspot.com",
