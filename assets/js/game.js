@@ -207,7 +207,7 @@ const moving = (settings) => {
 
     switch (way) {
       case "z":
-        if (flagAttack) {
+        if (flagAttack && !flagEnd) {
           place_Attack = place_NOW - settings.enemyAreaStartWidth;
           $(`[data-num="${place_Attack}"]`).find("span").addClass("attack");
           flagAttack = false;
@@ -241,38 +241,42 @@ const attackMoving = (settings) => {
         .addClass("attack");
     });
   }, settings.attackSpeed);
+
 };
 
 //ミサイル当たり判定の処理
 const collisionControl = (settings) => {
   setInterval(function () {
-    $(".square span").each(function () {
-      const $this = $(this);
-      const attackFlag = $this.hasClass("attack");
-      const enemyFlag = $this.hasClass("enemy");
+    if (!flagEnd) {
+      $(".square span").each(function () {
+        const $this = $(this);
+        const attackFlag = $this.hasClass("attack");
+        const enemyFlag = $this.hasClass("enemy");
 
-      //あたり
-      if (attackFlag && enemyFlag) {
-        destroyNum++;
-        if (leftNum === 0) {
-          leftNum = 0;
-        } else {
-          leftNum--;
+        //あたり
+        if (attackFlag && enemyFlag) {
+          destroyNum++;
+          if (leftNum === 0) {
+            leftNum = 0;
+          } else {
+            leftNum--;
+          }
+          //サバイバルモードの時は撃破数、違う場合は敵の残機数
+          if (settings.survivalMode) {
+            $(".point-display").find("p").text(destroyNum);
+          } else {
+            $(".point-display").find("p").text(leftNum);
+          }
+          $this.removeClass("attack");
+          $this.removeClass("enemy");
+          $this.closest(".square").css("background-color", "red");
+          setTimeout(function () {
+            $this.closest(".square").css("background-color", "inherit");
+          }, settings.collisionBombTime);
         }
-        //サバイバルモードの時は撃破数、違う場合は敵の残機数
-        if (settings.survivalMode) {
-          $(".point-display").find("p").text(destroyNum);
-        } else {
-          $(".point-display").find("p").text(leftNum);
-        }
-        $this.removeClass("attack");
-        $this.removeClass("enemy");
-        $this.closest(".square").css("background-color", "red");
-        setTimeout(function () {
-          $this.closest(".square").css("background-color", "inherit");
-        }, settings.collisionBombTime);
-      }
-    });
+      });
+    }
+
   }, settings.collisionSpeed);
 };
 
@@ -290,6 +294,7 @@ const judgeGameControl = (settings) => {
         if (playerFlag && enemyFlag) {
           $endDisplay.addClass("lose");
           $endDisplay.find("p").text("You are LOOSER!!!!");
+          flagEnd = true;
 
           _stopJudgeTimer();
 
@@ -299,6 +304,7 @@ const judgeGameControl = (settings) => {
           if (end_LENGTH === settings.endLength) {
             $endDisplay.addClass("lose");
             $endDisplay.find("p").text("You are LOOSER!!!!");
+            flagEnd = true;
 
             _stopJudgeTimer();
           }
