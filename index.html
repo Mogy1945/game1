@@ -21,7 +21,7 @@
 
     // Add Firebase products that you want to use
     import { getAuth } from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js'
-    import { getFirestore, collection, getDocs, addDoc } from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js'
+    import { getFirestore, collection, getDocs, addDoc, deleteDoc, doc } from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js'
     const firebaseConfig = {
       apiKey: API_KEY,
       authDomain: "shooting-f8264.firebaseapp.com",
@@ -45,11 +45,13 @@
           const LENGTH = $('.game-ranking ul li').length;
           $('.game-ranking ul').append(`<li>名前：${users[num].name}  <strong>得点：<span class="game-points">${users[num].point}</span></strong></li>`)
           num++
+
         })
         rankingControl();
       })
       .catch(err => {
         console.log(err.message)
+        $('.game-ranking ul').append(`<li>ランキング機能はメンテナンス中です...少々お待ちください。</li>`)
       })
 
     const addDocument = async (data) => {
