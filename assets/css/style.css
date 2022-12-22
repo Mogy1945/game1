@@ -161,6 +161,14 @@ td {
   content: "5位 ";
 }
 
+body .game-ranking li.mentainance-text{
+  color: black;
+  font-weight: bold;
+}
+body .game-ranking li.mentainance-text::before{
+  content: "";
+}
+
 .game-starter {
   background-color: rgb(76, 101, 225);
   height: 100px;
