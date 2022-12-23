@@ -14,7 +14,7 @@ const selectLevel = (fn) => {
     //player設定
     playerAreaMin: 181,
     playerAreaMax: 200,
-    attackSpeed: 1000, //attackの移動速度
+    attackSpeed: 500, //attackの移動速度
     //コンピューター設定
     judgeSpeed: 500, //勝敗を監視する時間間隔
     collisionSpeed: 50, //enemyとattackの衝突を監視する時間間隔
@@ -56,8 +56,8 @@ const selectLevel = (fn) => {
         selectLevelFlag = true;
         break;
       case "survival":
-        settings.enemyDisplaySpeed = 10;
-        settings.enemyMovingSpeed = 10;
+        settings.enemyDisplaySpeed = 15;
+        settings.enemyMovingSpeed = 15;
         settings.survivalMode = true;
 
         selectLevelFlag = true;
